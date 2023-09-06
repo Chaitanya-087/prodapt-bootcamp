@@ -42,12 +42,14 @@ public class CycleController {
         return "redirect:/cycle/list"; //TODO: redirect to list handler
     }
 
+    @NeedsAuth(loginPage = "/loginpage")
     @GetMapping("/{id}/restock")
     public String restockCycle(@PathVariable long id, @RequestParam(required=false, defaultValue="1") int count) {
         cycleService.restockBy(id, count);
         return "redirect:/cycle/list";
     }
 
+    @NeedsAuth(loginPage = "/loginpage")
     @GetMapping("/list")
     public String listAvailableCycles(Model model) {
         if (this.loggedInUser.getLoggedInUser() == null) {
@@ -58,11 +60,11 @@ public class CycleController {
         return "cycleList";
     }
 
+    @NeedsAuth(loginPage = "/loginpage")
     @GetMapping("/{id}")
     public String cycleDetail(@PathVariable long id, Model model) {
         var cycle = cycleService.findByIdOrThrow404(id);
         model.addAttribute("cycle", cycle);
         return "cycleDetail";
     }
-
 }
